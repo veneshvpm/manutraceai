@@ -17,11 +17,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Boxes,
-  Compass,
+  Factory,
   Volume2,
-  VolumeX
+  VolumeX,
+  Database
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { IndustryVisualIcon } from '../common/IndustryVisualIcon';
 
 interface SidebarItem {
   id: string;
@@ -32,13 +34,22 @@ interface SidebarItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab, alerts, isSoundEnabled, toggleSound } = useApp();
+  const {
+    activeTab,
+    setActiveTab,
+    alerts,
+    isSoundEnabled,
+    toggleSound,
+    currentIndustry,
+    industryConfig
+  } = useApp();
   const [collapsed, setCollapsed] = useState(false);
 
   const unreadCriticalCount = alerts.filter(a => !a.read && a.severity === 'critical').length;
 
   const navItems: SidebarItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dataset', label: 'Dataset Studio', icon: Factory, badge: 'LOAD', badgeColor: 'bg-[#DCFAF8] text-[#16DBCC]' },
     { id: 'passport', label: 'Manufacturing Passport', icon: ShieldCheck, badge: 'CORE', badgeColor: 'bg-[#E7EDFF] text-[#2D60FF]' },
     { id: 'products', label: 'Products & Batches', icon: Package },
     { id: 'traceability', label: 'Traceability Flow', icon: GitFork },
@@ -66,22 +77,23 @@ export const Sidebar: React.FC = () => {
         {!collapsed && (
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#2D60FF] to-[#1230AE] p-2 flex items-center justify-center shadow-[0_4px_12px_rgba(45,96,255,0.35)] flex-shrink-0">
-              <Compass className="w-6 h-6 text-white" />
+              <IndustryVisualIcon type="factory" size={22} className="text-white" />
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-lg tracking-tight text-[#343C6A] flex items-center gap-1.5">
                 ManuTrace <span className="text-[#2D60FF] text-[10px] font-bold bg-[#E7EDFF] px-1.5 py-0.5 rounded-full">AI</span>
               </span>
-              <span className="text-[11px] text-[#718EBF] font-medium tracking-tight truncate">
-                Universal Traceability
+              <span className="text-[11px] text-[#718EBF] font-medium tracking-tight truncate flex items-center gap-1.5">
+                <IndustryVisualIcon type={currentIndustry} size={11} className="text-[#2D60FF] flex-shrink-0" />
+                <span className="truncate">{industryConfig.name.split(' ')[0]} Sector</span>
               </span>
             </div>
           </div>
         )}
 
         {collapsed && (
-          <div className="mx-auto w-10 h-10 rounded-2xl bg-gradient-to-br from-[#2D60FF] to-[#1230AE] p-2 flex items-center justify-center shadow-[0_4px_12px_rgba(45,96,255,0.35)]">
-            <Compass className="w-6 h-6 text-white" />
+          <div className="mx-auto w-10 h-10 rounded-2xl bg-gradient-to-br from-[#2D60FF] to-[#1230AE] p-2 flex items-center justify-center shadow-[0_4px_12px_rgba(45,96,255,0.35)]" title={`ManuTrace AI - ${industryConfig.name}`}>
+            <IndustryVisualIcon type={currentIndustry} size={22} className="text-white" />
           </div>
         )}
 

@@ -23,6 +23,34 @@ import {
   INITIAL_ALERTS
 } from '../data/mockData';
 import { INDUSTRIES } from '../data/industries';
+import { DatasetTarget } from '../services/datasetParser';
+import { sound } from '../services/soundFx';
+
+export interface ToastItem {
+  id: string;
+  type: 'success' | 'info' | 'warning' | 'error';
+  title?: string;
+  message: string;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+  duration?: number;
+}
+
+export interface PresetScenario {
+  id: string;
+  title: string;
+  category: 'critical' | 'warning' | 'predictive' | 'success';
+  badge: string;
+  description: string;
+  targetBatchId: string;
+  targetProductId: string;
+  targetMachineId: string;
+  targetRawMaterialId: string;
+  targetTab: string;
+  highlights: string[];
+}
 
 interface UserProfile {
   name: string;
@@ -68,6 +96,18 @@ interface AppContextType {
   shipments: Shipment[];
   alerts: AlertNotification[];
 
+  // Dataset Mutators & Loader
+  setBatches: React.Dispatch<React.SetStateAction<Batch[]>>;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setMachines: React.Dispatch<React.SetStateAction<Machine[]>>;
+  setSuppliers: React.Dispatch<React.SetStateAction<Supplier[]>>;
+  setRawMaterials: React.Dispatch<React.SetStateAction<RawMaterial[]>>;
+  setInspections: React.Dispatch<React.SetStateAction<QualityInspection[]>>;
+  setDefects: React.Dispatch<React.SetStateAction<Defect[]>>;
+  setShipments: React.Dispatch<React.SetStateAction<Shipment[]>>;
+  loadDataset: (target: DatasetTarget, rows: any[], mode: 'append' | 'replace') => { success: boolean; count: number; message: string };
+  resetDatasetsToDefault: () => void;
+
   // Selections for cross-module flows
   selectedBatchId: string;
   setSelectedBatchId: (id: string) => void;
@@ -87,9 +127,27 @@ interface AppContextType {
   setIsNotificationsOpen: (open: boolean) => void;
   isQrModalOpen: boolean;
   setIsQrModalOpen: (open: boolean) => void;
+  isPassportModalOpen: boolean;
+  setIsPassportModalOpen: (open: boolean) => void;
   qrTarget: QrTarget | null;
   openQrModal: (target: QrTarget) => void;
   closeQrModal: () => void;
+
+  // AI Copilot & Productivity Modals
+  isCopilotOpen: boolean;
+  setIsCopilotOpen: (open: boolean) => void;
+  isScenarioModalOpen: boolean;
+  setIsScenarioModalOpen: (open: boolean) => void;
+  isExportDossierOpen: boolean;
+  setIsExportDossierOpen: (open: boolean) => void;
+  isShortcutsOpen: boolean;
+  setIsShortcutsOpen: (open: boolean) => void;
+  applyPresetScenario: (scenarioId: string) => void;
+
+  // Interactive Toast Notifications
+  toasts: ToastItem[];
+  showToast: (toast: Omit<ToastItem, 'id'>) => string;
+  removeToast: (id: string) => void;
 
   // Alerts management
   markAlertRead: (id: string) => void;
@@ -97,7 +155,9 @@ interface AppContextType {
 
   // Audio & Live Telemetry Stream
   isAudioEnabled: boolean;
+  isSoundEnabled: boolean;
   toggleAudio: () => boolean;
+  toggleSound: () => boolean;
   isLiveTelemetryActive: boolean;
   toggleLiveTelemetry: () => void;
   telemetryJitter: number; // dynamically updated tick offset
@@ -119,6 +179,61 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+export const PRESET_SCENARIOS: PresetScenario[] = [
+  {
+    id: 'thermal-defect',
+    title: 'Critical Thermal Drift & Defect Spike',
+    category: 'critical',
+    badge: 'URGENT RCA',
+    description: 'Machine M04 sustained 182°C for 35m during Batch B-1042 resulting in +8.4% micro-surface defect rate.',
+    targetBatchId: 'B-1042',
+    targetProductId: 'PRD-10021',
+    targetMachineId: 'M04',
+    targetRawMaterialId: 'RM-7821',
+    targetTab: 'rca',
+    highlights: ['42% Thermal correlation', '486 Units Quarantined', '$42,500 Risk']
+  },
+  {
+    id: 'material-contamination',
+    title: 'Upstream Raw Material Hardness Variance',
+    category: 'warning',
+    badge: 'REVERSE TRACE',
+    description: 'Incoming Alloy lot RM-7821 from Global Materials Ltd exhibits +3.8% hardness drift affecting 3 production batches.',
+    targetBatchId: 'B-1043',
+    targetProductId: 'PRD-10023',
+    targetMachineId: 'M04',
+    targetRawMaterialId: 'RM-7821',
+    targetTab: 'reverse-trace',
+    highlights: ['Supplier SUP-001 audit', '3 batches downstream', '7 customer shipments']
+  },
+  {
+    id: 'vibration-maintenance',
+    title: 'Predictive Spindle Vibration Early Warning',
+    category: 'predictive',
+    badge: 'PREDICTIVE SPC',
+    description: 'Machine M04 harmonic vibration reached 3.4 mm/s RMS. Digital twin simulation recommends speed derate.',
+    targetBatchId: 'B-1042',
+    targetProductId: 'PRD-10021',
+    targetMachineId: 'M04',
+    targetRawMaterialId: 'RM-7821',
+    targetTab: 'simulator',
+    highlights: ['Run What-If process simulation', 'Bearing lubrication required', 'Avoid unplanned downtime']
+  },
+  {
+    id: 'clean-compliance',
+    title: 'Zero-Defect EU Digital Product Passport',
+    category: 'success',
+    badge: 'CERTIFIED DPP',
+    description: 'Batch B-1039 completed 99.4% FPY with 100% blockchain-anchored traceability and tamper-evident QR code.',
+    targetBatchId: 'B-1039',
+    targetProductId: 'PRD-10022',
+    targetMachineId: 'M02',
+    targetRawMaterialId: 'RM-7820',
+    targetTab: 'passport',
+    highlights: ['ISO 9001 certified', 'Zero defects', 'Instant QR Share']
+  }
+];
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Auth state - default logged in for immediate showcase access, but login page is fully toggleable
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
@@ -133,16 +248,98 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentIndustry, setCurrentIndustry] = useState<IndustryType>('automotive');
   const [activeTab, setActiveTab] = useState<string>('dashboard');
 
-  // Core data
-  const [batches] = useState<Batch[]>(INITIAL_BATCHES);
-  const [products] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [machines] = useState<Machine[]>(INITIAL_MACHINES);
-  const [suppliers] = useState<Supplier[]>(INITIAL_SUPPLIERS);
-  const [rawMaterials] = useState<RawMaterial[]>(INITIAL_RAW_MATERIALS);
-  const [inspections] = useState<QualityInspection[]>(INITIAL_INSPECTIONS);
-  const [defects] = useState<Defect[]>(INITIAL_DEFECTS);
-  const [shipments] = useState<Shipment[]>(INITIAL_SHIPMENTS);
+  // Core data with localStorage hydration
+  const [batches, setBatches] = useState<Batch[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_batches');
+      return s ? JSON.parse(s) : INITIAL_BATCHES;
+    } catch {
+      return INITIAL_BATCHES;
+    }
+  });
+  const [products, setProducts] = useState<Product[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_products');
+      return s ? JSON.parse(s) : INITIAL_PRODUCTS;
+    } catch {
+      return INITIAL_PRODUCTS;
+    }
+  });
+  const [machines, setMachines] = useState<Machine[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_machines');
+      return s ? JSON.parse(s) : INITIAL_MACHINES;
+    } catch {
+      return INITIAL_MACHINES;
+    }
+  });
+  const [suppliers, setSuppliers] = useState<Supplier[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_suppliers');
+      return s ? JSON.parse(s) : INITIAL_SUPPLIERS;
+    } catch {
+      return INITIAL_SUPPLIERS;
+    }
+  });
+  const [rawMaterials, setRawMaterials] = useState<RawMaterial[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_rawMaterials');
+      return s ? JSON.parse(s) : INITIAL_RAW_MATERIALS;
+    } catch {
+      return INITIAL_RAW_MATERIALS;
+    }
+  });
+  const [inspections, setInspections] = useState<QualityInspection[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_inspections');
+      return s ? JSON.parse(s) : INITIAL_INSPECTIONS;
+    } catch {
+      return INITIAL_INSPECTIONS;
+    }
+  });
+  const [defects, setDefects] = useState<Defect[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_defects');
+      return s ? JSON.parse(s) : INITIAL_DEFECTS;
+    } catch {
+      return INITIAL_DEFECTS;
+    }
+  });
+  const [shipments, setShipments] = useState<Shipment[]>(() => {
+    try {
+      const s = localStorage.getItem('manutrace_shipments');
+      return s ? JSON.parse(s) : INITIAL_SHIPMENTS;
+    } catch {
+      return INITIAL_SHIPMENTS;
+    }
+  });
   const [alerts, setAlerts] = useState<AlertNotification[]>(INITIAL_ALERTS);
+
+  // Sync state to localStorage
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_batches', JSON.stringify(batches)); } catch {}
+  }, [batches]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_products', JSON.stringify(products)); } catch {}
+  }, [products]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_machines', JSON.stringify(machines)); } catch {}
+  }, [machines]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_suppliers', JSON.stringify(suppliers)); } catch {}
+  }, [suppliers]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_rawMaterials', JSON.stringify(rawMaterials)); } catch {}
+  }, [rawMaterials]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_inspections', JSON.stringify(inspections)); } catch {}
+  }, [inspections]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_defects', JSON.stringify(defects)); } catch {}
+  }, [defects]);
+  useEffect(() => {
+    try { localStorage.setItem('manutrace_shipments', JSON.stringify(shipments)); } catch {}
+  }, [shipments]);
 
   // Cross-entity selections
   const [selectedBatchId, setSelectedBatchId] = useState<string>('B-1042');
@@ -155,6 +352,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState<boolean>(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false);
+  const [isPassportModalOpen, setIsPassportModalOpen] = useState<boolean>(false);
+  const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
+  const [isScenarioModalOpen, setIsScenarioModalOpen] = useState<boolean>(false);
+  const [isExportDossierOpen, setIsExportDossierOpen] = useState<boolean>(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState<boolean>(false);
+
+  // Toasts
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const showToast = (toast: Omit<ToastItem, 'id'>): string => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+    const newToast: ToastItem = { ...toast, id, duration: toast.duration || 4000 };
+    setToasts(prev => [newToast, ...prev.slice(0, 4)]);
+
+    if (toast.type === 'error' || toast.type === 'warning') {
+      sound.playAlert();
+    } else {
+      sound.playSuccess();
+    }
+
+    if (newToast.duration && newToast.duration > 0) {
+      setTimeout(() => {
+        removeToast(id);
+      }, newToast.duration);
+    }
+    return id;
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
   const [qrTarget, setQrTarget] = useState<QrTarget | null>({
     type: 'product',
     id: 'PRD-10021',
@@ -187,6 +416,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleAudio = () => {
     const next = !isAudioEnabled;
     setIsAudioEnabled(next);
+    sound.setEnabled(next);
     return next;
   };
 
@@ -194,17 +424,74 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsLiveTelemetryActive(prev => !prev);
   };
 
-  // Keyboard shortcut for Global Search (Ctrl+K or Cmd+K)
+  // Preset Scenario Applier
+  const applyPresetScenario = (scenarioId: string) => {
+    const scenario = PRESET_SCENARIOS.find(s => s.id === scenarioId);
+    if (!scenario) return;
+
+    setSelectedBatchId(scenario.targetBatchId);
+    setSelectedProductId(scenario.targetProductId);
+    setSelectedMachineId(scenario.targetMachineId);
+    setSelectedRawMaterialId(scenario.targetRawMaterialId);
+    setActiveTab(scenario.targetTab);
+    setIsScenarioModalOpen(false);
+
+    showToast({
+      type: scenario.category === 'critical' ? 'error' : scenario.category === 'warning' ? 'warning' : 'success',
+      title: `Applied: ${scenario.title}`,
+      message: `Focused on Batch ${scenario.targetBatchId} / Machine ${scenario.targetMachineId}.`,
+      action: {
+        label: 'View Passport',
+        onClick: () => setActiveTab('passport')
+      }
+    });
+  };
+
+  // Global Keyboard Shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // If typing in input or textarea, only allow ESC
+      const target = e.target as HTMLElement;
+      const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+
+      if (e.key === 'Escape') {
+        setIsSearchOpen(false);
+        setIsCopilotOpen(false);
+        setIsScenarioModalOpen(false);
+        setIsExportDossierOpen(false);
+        setIsShortcutsOpen(false);
+        setIsQrModalOpen(false);
+        setIsPassportModalOpen(false);
+        setIsNotificationsOpen(false);
+        return;
+      }
+
+      if (isInput) return;
+
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsSearchOpen(prev => !prev);
+      } else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'j' || e.key === '/')) {
+        e.preventDefault();
+        setIsCopilotOpen(prev => !prev);
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd') {
+        e.preventDefault();
+        if (isDemoTourActive) {
+          exitDemoTour();
+        } else {
+          startDemoTour();
+        }
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'e') {
+        e.preventDefault();
+        setIsExportDossierOpen(prev => !prev);
+      } else if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setIsShortcutsOpen(prev => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [isDemoTourActive]);
 
   const login = (email?: string, _isDemo: boolean = true, industry: IndustryType = 'automotive') => {
     setIsAuthenticated(true);
@@ -217,6 +504,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       avatar: 'MV'
     });
     setActiveTab('dashboard');
+    showToast({
+      type: 'info',
+      title: 'Authenticated as Director',
+      message: `Welcome to ManuTrace AI — ${INDUSTRIES[industry].name} Sector.`
+    });
   };
 
   const logout = () => {
@@ -238,6 +530,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const markAllAlertsRead = () => {
     setAlerts(prev => prev.map(a => ({ ...a, read: true })));
+    showToast({
+      type: 'success',
+      title: 'Alerts Acknowledged',
+      message: 'All notifications marked as read.'
+    });
   };
 
   // Quick Action triggers
@@ -257,14 +554,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Demo Tour Steps definitions according to USER STORY:
-  // 1. Login -> 2. Dashboard -> 3. Select Batch B-1042 -> 4. Open Passport -> 5. Product History
-  // 6. Machine Event -> 7. AI RCA -> 8. Contributing Factors -> 9. Reverse Trace -> 10. Affected Products
-  // 11. Impact Analysis -> 12. Simulator -> 13. Change Temp -> 14. Run Simulation -> 15. Show Predicted Impact
-  // 16. Generate Passport QR -> 17. Analytics
   const startDemoTour = () => {
     setIsDemoTourActive(true);
     setDemoTourStep(1);
     setActiveTab('dashboard');
+    showToast({
+      type: 'info',
+      title: '5-Minute Expo Story Tour Started',
+      message: 'Use Next/Previous or step pips to navigate the full storyline.'
+    });
   };
 
   const exitDemoTour = () => {
@@ -276,6 +574,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       goToDemoTourStep(demoTourStep + 1);
     } else {
       setIsDemoTourActive(false);
+      showToast({
+        type: 'success',
+        title: 'Expo Tour Completed!',
+        message: 'All 17 industrial traceability milestones verified.'
+      });
     }
   };
 
@@ -340,6 +643,72 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
+  const loadDataset = (target: DatasetTarget, rows: any[], mode: 'append' | 'replace') => {
+    switch (target) {
+      case 'batches':
+        setBatches(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'products':
+        setProducts(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'machines':
+        setMachines(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'suppliers':
+        setSuppliers(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'rawMaterials':
+        setRawMaterials(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'inspections':
+        setInspections(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'defects':
+        setDefects(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+      case 'shipments':
+        setShipments(prev => (mode === 'replace' ? rows : [...rows, ...prev]));
+        break;
+    }
+    const msg = `Successfully loaded ${rows.length} ${target} records into active memory (${mode} mode).`;
+    showToast({
+      type: 'success',
+      title: 'Dataset Ingestion Complete',
+      message: msg
+    });
+    return {
+      success: true,
+      count: rows.length,
+      message: msg
+    };
+  };
+
+  const resetDatasetsToDefault = () => {
+    setBatches(INITIAL_BATCHES);
+    setProducts(INITIAL_PRODUCTS);
+    setMachines(INITIAL_MACHINES);
+    setSuppliers(INITIAL_SUPPLIERS);
+    setRawMaterials(INITIAL_RAW_MATERIALS);
+    setInspections(INITIAL_INSPECTIONS);
+    setDefects(INITIAL_DEFECTS);
+    setShipments(INITIAL_SHIPMENTS);
+    try {
+      localStorage.removeItem('manutrace_batches');
+      localStorage.removeItem('manutrace_products');
+      localStorage.removeItem('manutrace_machines');
+      localStorage.removeItem('manutrace_suppliers');
+      localStorage.removeItem('manutrace_rawMaterials');
+      localStorage.removeItem('manutrace_inspections');
+      localStorage.removeItem('manutrace_defects');
+      localStorage.removeItem('manutrace_shipments');
+    } catch {}
+    showToast({
+      type: 'info',
+      title: 'Datasets Restored',
+      message: 'All factory records reverted to factory default baseline.'
+    });
+  };
+
   const industryConfig = INDUSTRIES[currentIndustry];
 
   return (
@@ -363,6 +732,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         defects,
         shipments,
         alerts,
+        setBatches,
+        setProducts,
+        setMachines,
+        setSuppliers,
+        setRawMaterials,
+        setInspections,
+        setDefects,
+        setShipments,
+        loadDataset,
+        resetDatasetsToDefault,
         selectedBatchId,
         setSelectedBatchId,
         selectedProductId,
@@ -379,13 +758,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsNotificationsOpen,
         isQrModalOpen,
         setIsQrModalOpen,
+        isPassportModalOpen,
+        setIsPassportModalOpen,
         qrTarget,
         openQrModal,
         closeQrModal,
+        isCopilotOpen,
+        setIsCopilotOpen,
+        isScenarioModalOpen,
+        setIsScenarioModalOpen,
+        isExportDossierOpen,
+        setIsExportDossierOpen,
+        isShortcutsOpen,
+        setIsShortcutsOpen,
+        applyPresetScenario,
+        toasts,
+        showToast,
+        removeToast,
         markAlertRead,
         markAllAlertsRead,
         isAudioEnabled,
+        isSoundEnabled: isAudioEnabled,
         toggleAudio,
+        toggleSound: toggleAudio,
         isLiveTelemetryActive,
         toggleLiveTelemetry,
         telemetryJitter,

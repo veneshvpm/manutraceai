@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ManuTrace AI - Exhaustive Feature Specification & Operational Manual</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    color: #343C6A;
+    line-height: 1.6;
+    margin: 40px auto;
+    max-width: 950px;
+    padding: 0 25px;
+  }
+  h1 {
+    color: #1230AE;
+    border-bottom: 3px solid #2D60FF;
+    padding-bottom: 10px;
+    font-size: 26pt;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: #718EBF;
+    font-size: 13pt;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+  h2 {
+    color: #2D60FF;
+    border-bottom: 2px solid #E6EFF5;
+    padding-bottom: 6px;
+    margin-top: 35px;
+    font-size: 16pt;
+  }
+  h3 {
+    color: #1230AE;
+    margin-top: 22px;
+    font-size: 13pt;
+  }
+  h4 {
+    color: #343C6A;
+    margin-top: 15px;
+    font-size: 11pt;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0 25px 0;
+    font-size: 10pt;
+  }
+  th, td {
+    border: 1px solid #DFEAF2;
+    padding: 9px 13px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background-color: #F5F7FA;
+    color: #343C6A;
+    font-weight: bold;
+  }
+  tr:nth-child(even) {
+    background-color: #FAFCFE;
+  }
+  .callout {
+    background-color: #F5F7FA;
+    border-left: 4px solid #2D60FF;
+    padding: 14px 18px;
+    border-radius: 4px;
+    margin: 18px 0;
+  }
+  ul, ol {
+    padding-left: 22px;
+    margin: 8px 0;
+  }
+  li {
+    margin-bottom: 5px;
+  }
+  kbd {
+    background-color: #F5F7FA;
+    border: 1px solid #DFEAF2;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: Consolas, monospace;
+    font-size: 9pt;
+    color: #2D60FF;
+    font-weight: bold;
+  }
+  .formula {
+    background-color: #F8FAFD;
+    border: 1px solid #E6EFF5;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    font-size: 11pt;
+    margin: 10px 0;
+    color: #1230AE;
+  }
+</style>
+</head>
+<body>
+
+<h1>ManuTrace AI™ — Exhaustive Feature Specification</h1>
+<p class="subtitle">Enterprise Industrial AI, Digital Product Passport (DPP) & Supply Chain Traceability Operating System<br>
+<strong>Document Version:</strong> 2.4 LTS | <strong>System Reference:</strong> MT-SPEC-2026-V2</p>
+
+<div class="callout">
+  <strong>Executive Summary:</strong> ManuTrace AI is an enterprise-grade Industrial AI platform achieving zero-defect manufacturing, real-time supply chain transparency, and automated root cause diagnostics across 5 industrial sectors. It provides cryptographic forward genealogy, backward blast-radius containment, 10 Hz live machine telemetry streaming, multi-variate statistical process control (SPC) anomaly detection, and a digital twin process simulator.
+</div>
+
+<h2>🏛️ 1. Platform Architecture & Infrastructure</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Technologies / Standard</th>
+      <th>Operational Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Frontend Framework</strong></td>
+      <td>React 18.3 (TypeScript), Vite 6.4, Tailwind CSS</td>
+      <td>Ultra-responsive client-side web application with BankDash modern design aesthetics.</td>
+    </tr>
+    <tr>
+      <td><strong>Intelligence Engine</strong></td>
+      <td>Multi-variate SPC Anomaly Detector, Regression RCA Engine, Digital Twin What-If Simulator</td>
+      <td>Autonomous heuristics calculating real-time statistical deviations and physical correlations.</td>
+    </tr>
+    <tr>
+      <td><strong>Audio Synthesizer</strong></td>
+      <td>Native Web Audio API Industrial UI Synthesizer</td>
+      <td>Zero-asset audio synthesis generating distinct wave frequencies for clicks, verifications, alerts, and scans.</td>
+    </tr>
+    <tr>
+      <td><strong>Compliance Standards</strong></td>
+      <td>ISO 9001:2015, IATF 16949, AS9100D, cGMP (FDA 21 CFR Part 210), EU Digital Product Passport</td>
+      <td>Standardized regulatory schemas with cryptographic SHA-256 integrity anchoring.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>🌐 2. Multi-Sector Configurable Engine (5 Industrial Sectors)</h2>
+<ul>
+  <li><strong>🚗 Automotive & Precision Engineering:</strong> Focus on brake calipers, transmission housings, CNC tolerances, and IATF 16949 compliance.</li>
+  <li><strong>⚡ Semiconductor & Electronics:</strong> Focus on silicon wafers, GaN substrates, SMT lines, and Sony Green Partner certification.</li>
+  <li><strong>💊 Pharma & BioTech (cGMP):</strong> Focus on active pharmaceutical ingredients (API), lyophilized vials, and FDA 21 CFR Part 210 compliance.</li>
+  <li><strong>🥫 Food & Beverage Processing:</strong> Focus on certified organic concentrates, pasteurization thermal envelopes, and HACCP / FSMA standards.</li>
+  <li><strong>🧵 Technical Textiles & High-Performance Apparel:</strong> Focus on high-tenacity yarn, tensile strength, and OEKO-TEX Standard 100.</li>
+</ul>
+
+<h2>🖥️ 3. Master UI Layout, Navigation & Productivity Hubs</h2>
+
+<h3>3.1 Collapsible Left Sidebar</h3>
+<ul>
+  <li><strong>Brand Header:</strong> ManuTrace AI logo with dynamic sector badge, factory icon, and collapse/expand toggle button.</li>
+  <li><strong>16 Navigation Modules:</strong> Each item features custom icon, active blue vertical indicator bar, and color-coded status badges (<code>CORE</code>, <code>LOAD</code>, <code>KEY</code>, <code>AI</code>, <code>NEW</code>, <code>Alert</code>).</li>
+  <li><strong>Collapsed Mode:</strong> Minimizes to icon rail (w-20) with hover tooltips and expand button.</li>
+  <li><strong>Live Telemetry Status Box:</strong> Shows real-time 10 Hz synchronization status, pulsing green beacon, active build version (<code>v2.4 LTS</code>), and audio synthesizer mute/unmute toggle.</li>
+</ul>
+
+<h3>3.2 Top Header & Contextual Ribbon Bar</h3>
+<ul>
+  <li><strong>Universal Search Bar:</strong> Clickable search button with search icon, placeholder text, and <kbd>Ctrl K</kbd> badge.</li>
+  <li><strong>AI Copilot Quick Button:</strong> Integrated button launching the natural language assistant.</li>
+  <li><strong>Mission Tagline Banner:</strong> <em>"TRACE EVERYTHING. UNDERSTAND ANYTHING. ACT BEFORE IMPACT."</em></li>
+  <li><strong>10 Hz Telemetry Toggle:</strong> Displays live stream pulse (<code>10 Hz Live</code> vs <code>Paused</code>) with toggle sound.</li>
+  <li><strong>1-Click Scenarios Button:</strong> Amber pill opening the preset test scenario launcher.</li>
+  <li><strong>5-Min Expo Tour Button:</strong> Gradient button with spinning sparkles icon launching the 17-step guided story.</li>
+  <li><strong>Industrial Sector Dropdown:</strong> Dynamic sector selector with emoji icons (🚗, ⚡, 💊, 🥫, 🧵) switching data schemas live.</li>
+  <li><strong>Notification Bell:</strong> Circular button with unread counter and pulsing red indicator for critical alerts.</li>
+  <li><strong>Contextual Ribbon Bar (Below Header):</strong> Shows module breadcrumbs, in-place Batch Selector dropdown, in-place Machine Selector dropdown, and speed-dial action pills (<code>RCA</code>, <code>Reverse Trace</code>, <code>Passport</code>, <code>Simulator</code>, <code>Scenarios</code>, <code>Audit PDF</code>, <code>Ask AI</code>).</li>
+</ul>
+
+<h3>3.3 Global Modals & Productivity Drawers</h3>
+<ul>
+  <li><strong>🤖 ManuTrace AI Copilot Modal (<kbd>Ctrl + J</kbd>):</strong> Context-aware natural language assistant answering any question with live data, metric cards, simulated voice input, and 1-click action buttons.</li>
+  <li><strong>🎯 1-Click Scenario Matrix Modal:</strong> 4 instant test scenarios (Critical Thermal Drift RCA, Raw Material Variance Trace, Spindle Vibration Twin Simulator, Zero-Defect EU DPP).</li>
+  <li><strong>📄 Printable Executive Audit Dossier Modal (<kbd>Ctrl + E</kbd>):</strong> Formats complete ISO 9001 / EU DPP compliance report with print stylesheet and JSON copy.</li>
+  <li><strong>📱 Digital Passport QR Modal:</strong> Public tamper-evident QR code and unmasked internal auditor view toggle.</li>
+  <li><strong>🔍 Universal Global Search Modal (<kbd>Ctrl + K</kbd>):</strong> Instant modal search across batches, products, machines, suppliers, raw materials, and shipments.</li>
+  <li><strong>🚀 5-Minute Guided Expo Story Tour (<kbd>Ctrl + D</kbd>):</strong> 17-step guided narrative walkthrough of the full platform storyline.</li>
+  <li><strong>⌨️ Keyboard Shortcuts Guide (<kbd>?</kbd>):</strong> Visual modal displaying all productivity hotkeys.</li>
+  <li><strong>🔔 Real-Time Action Toasts:</strong> Instant visual feedback for all user operations.</li>
+</ul>
+
+<h2>🚀 4. Exhaustive Specification of All 17 Core Modules</h2>
+
+<h3>Module 1: Overview Dashboard (/dashboard)</h3>
+<ul>
+  <li><strong>Hero Passport Cards:</strong> Primary Tracked Lot (<code>Batch B-1042</code> with Anomaly Flagged badge) and Certified Benchmark Lot (<code>Batch B-1041</code> with Pass 99.4% FPY badge).</li>
+  <li><strong>Recent Incident Stream:</strong> Real-time log of thermal spikes, vibration anomalies, and material hardness variations with timestamps.</li>
+  <li><strong>KPI Quad:</strong> Active Lots (24 Batches), Units Produced (18,426), First-Pass Yield (96.8%), and Quarantined Lots (4 Batches).</li>
+  <li><strong>Weekly Production Double-Bar Chart:</strong> Visual comparison of target units vs completed units across days with Thursday spike callout.</li>
+  <li><strong>Manufacturing Health Score Donut (87/100):</strong> Process Health (92%), Quality (96.8%), Supply (82%), Machine (78%).</li>
+  <li><strong>1-Click Scenario Matrix:</strong> 4 cards launching pre-configured test scenarios.</li>
+  <li><strong>Quick Containment Card:</strong> 1-click button to contain Batch B-1042 blast radius and launch rework simulation.</li>
+</ul>
+
+<h3>Module 2: Industrial Dataset Studio (/dataset)</h3>
+<ul>
+  <li><strong>Universal Drag & Drop Ingestion:</strong> Upload CSV, JSON, or Excel files for Batches, Products, Machines, Suppliers, Raw Materials, Inspections, Defects, and Shipments.</li>
+  <li><strong>Dual Ingestion Modes:</strong> Append Mode (adds new rows to memory) vs Replace Mode (replaces database).</li>
+  <li><strong>Preloaded Sector Benchmarks:</strong> 1-Click loading of industry datasets for all 5 sectors.</li>
+  <li><strong>Active Database Explorer:</strong> Live searchable table displaying all rows in memory with column sorting, record count, and risk breakdown.</li>
+  <li><strong>Dataset Export & Reset:</strong> Export active datasets to JSON/CSV or revert to baseline factory defaults.</li>
+</ul>
+
+<h3>Module 3: Digital Product Passport (/passport)</h3>
+<ul>
+  <li><strong>7-Stage Lifecycle Verification Chain:</strong>
+    <ol>
+      <li><em>Raw Material Reception:</em> Lot purity score, mill test certificate, received date.</li>
+      <li><em>Supplier Verification:</em> Tier-1 quality rating, ISO/IATF credentials.</li>
+      <li><em>Machine Processing Cell:</em> Chamber temperature, hydraulic pressure, spindle vibration, operator ID.</li>
+      <li><em>Assembly & Production:</em> Cycle dwell time, serialization, line assignment.</li>
+      <li><em>Quality Inspection Gateway:</em> Eddy current testing, surface roughness, pass/fail disposition.</li>
+      <li><em>Packaging & QR Serialization:</em> Cryptographic SHA-256 seal, blockchain anchor.</li>
+      <li><em>Logistics & Distribution:</em> Carrier tracking, customer dispatch, dock quarantine status.</li>
+    </ol>
+  </li>
+  <li><strong>Cryptographic Verification Seal:</strong> SHA-256 digital signature guaranteeing authenticity.</li>
+  <li><strong>Dual View Modes:</strong> Public Consumer View (sanitized) vs Certified Internal Auditor View (unmasked raw telemetry).</li>
+  <li><strong>Interactive Digital Twin Visualizer:</strong> 3D-styled component breakdown showing internal sensor telemetry.</li>
+</ul>
+
+<h3>Module 4: Products & Batches Directory (/products)</h3>
+<ul>
+  <li>Searchable master catalog of all manufactured units and active lots.</li>
+  <li>Multi-factor filters by Sector, Quality Status, Risk Level, and Production Line.</li>
+  <li>Direct 1-click links to RCA, Passport, Simulator, and QR modal.</li>
+</ul>
+
+<h3>Module 5: Forward Traceability Flow (/traceability)</h3>
+<ul>
+  <li>Multi-tier genealogical node graph from raw material supplier to customer delivery.</li>
+  <li>Node-by-node inspection of timestamps, operator badges, recorded temperatures, and pass rates.</li>
+</ul>
+
+<h3>Module 6: Backward / Reverse Traceability & Blast Radius (/reverse-trace)</h3>
+<ul>
+  <li>Upstream root tracing from any raw material lot (e.g. <code>RM-7821</code>) back to point of origin.</li>
+  <li>Automated Blast Radius Calculation: 3 compromised batches, 486 finished units, 7 quarantined customer shipments.</li>
+  <li>1-Click Precision Containment: Simultaneous quarantine of all affected downstream entities.</li>
+</ul>
+
+<h3>Module 7: AI Anomaly Intelligence (/ai-intelligence)</h3>
+<ul>
+  <li>Real-time statistical process control (SPC) anomaly detector calculating Z-score deviations against 3-sigma limits.</li>
+  <li>Multi-variate risk rating (Thermal 40%, Vibration 25%, Supplier 20%, Process 15%).</li>
+  <li>Severity categorization (Low, Medium, High, Critical) with recommended engineering actions.</li>
+</ul>
+
+<h3>Module 8: Root Cause Analysis (/rca)</h3>
+<ul>
+  <li>Contributing Factors Tree: 42% Temperature Deviation, 24% Spindle Vibration, 18% Material Hardness, 11% Processing Time, 5% Operator Clamping Torque.</li>
+  <li>Direct sensor evidence correlation proving root cause.</li>
+  <li>Corrective and Preventive Action (CAPA) generator.</li>
+</ul>
+
+<h3>Module 9: Impact Analysis & Risk Forensics (/impact)</h3>
+<ul>
+  <li>Cascading operational risk evaluation and financial exposure calculator ($42,500 USD).</li>
+  <li>Multi-tier impact tree tracking units at Triggering Event, Active Lots, Finished Assemblies, QA Gates, and Logistics.</li>
+</ul>
+
+<h3>Module 10: What-If Digital Twin Process Simulator (/simulator)</h3>
+<ul>
+  <li>Real-time sliders for Chamber Temperature, Hydraulic Pressure, Processing Time, and Spindle Speed.</li>
+  <li>Presets: Nominal Standard, High Speed / Throughput, Eco / Energy Saver, Stress Test / Thermal Limit.</li>
+  <li>Automated Stress Test Run: Dynamically ramps temperature by +3°C every 250ms with telemetry audio chirps to locate failure threshold.</li>
+  <li>Real-time predictive comparison between Current Baseline vs Simulated Process across Yield %, Defect Risk %, Energy (kWh), and Tooling Stress.</li>
+</ul>
+
+<h3>Module 11: Quality Control & Inspection Gateways (/quality)</h3>
+<ul>
+  <li>Station-by-station inspection logs (Eddy Current, Surface Finish, CMM Dimensional Tolerances).</li>
+  <li>Defect Category Pareto breakdown (Dimension, Surface, Material, Assembly, Packaging).</li>
+</ul>
+
+<h3>Module 12: Supplier Scorecard & Performance Matrix (/suppliers)</h3>
+<ul>
+  <li>Tier-1 supplier leaderboard, quality scores, defect rates, and active batch counts.</li>
+  <li>Compliance certificates (IATF 16949, ISO 9001:2015, AS9100D, cGMP, HACCP).</li>
+</ul>
+
+<h3>Module 13: Machine Fleet & Spindle Telemetry (/machines)</h3>
+<ul>
+  <li>Fleet telemetry monitor for Machines M01 to M06.</li>
+  <li>Spindle harmonic vibration FFT / RMS logs against ISO 10816 limits (< 2.8 mm/s nominal).</li>
+  <li>10 Hz Live Stream Simulation toggle with dynamic industrial jitter.</li>
+</ul>
+
+<h3>Module 14: Executive Operational Analytics (/analytics)</h3>
+<ul>
+  <li>Overall Equipment Effectiveness (OEE) analytics (92.4% Fleet OEE).</li>
+  <li>First-Pass Yield (FPY) trend curves and Cost of Quality (CoQ) breakdown.</li>
+</ul>
+
+<h3>Module 15: Compliance & Audit Reports (/reports)</h3>
+<ul>
+  <li>1-Click formal ISO 9001:2015 compliance audit package generator.</li>
+  <li>EU Digital Product Passport JSON-LD & PDF exports.</li>
+</ul>
+
+<h3>Module 16: System Settings & Governance (/settings)</h3>
+<ul>
+  <li>Dynamic industrial sector switching and user role administration.</li>
+  <li>LocalStorage backup and factory default restore.</li>
+</ul>
+
+<h3>Module 17: Enterprise Authentication (/login)</h3>
+<ul>
+  <li>Role-based Single Sign-On simulation (Director, QA Lead, Process Engineer, Auditor).</li>
+  <li>1-Click fast demo access for all 5 sectors.</li>
+</ul>
+
+<h2>📐 5. Mathematical SPC Formulas & Empirical Models</h2>
+
+<div class="formula">
+  <strong>SPC Z-Score Anomaly Formula:</strong><br>
+  Z = |T<sub>current</sub> - T<sub>baseline</sub>| / &sigma;<br>
+  <em>(Where T<sub>baseline</sub> = 180.0°C and &sigma; = 2.5°C. Anomaly triggered when Z > 2.0 or |T - 180| > 5°C)</em>
+</div>
+
+<div class="formula">
+  <strong>Multi-Variate Composite Risk Rating:</strong><br>
+  Risk<sub>composite</sub> = 0.40 &times; R<sub>thermal</sub> + 0.25 &times; R<sub>vibration</sub> + 0.20 &times; R<sub>supplier</sub> + 0.15 &times; R<sub>variance</sub>
+</div>
+
+<div class="formula">
+  <strong>What-If Process Simulation Response Functions:</strong><br>
+  &Delta;QualityRisk = 2.4 &times; &Delta;T + 3.1 &times; &Delta;P - 0.8 &times; &Delta;t<br>
+  &Delta;DefectRisk = 1.6 &times; &Delta;T + 1.2 &times; (&Delta;Speed / 100) + 1.8 &times; &Delta;P<br>
+  &Delta;Energy = 1.0 &times; &Delta;T + 2.5 &times; (&Delta;Speed / 100) + 1.5 &times; &Delta;t<br>
+  Yield<sub>sim</sub> = max(60, min(99.8, Yield<sub>current</sub> - 0.4 &times; &Delta;DefectRisk))
+</div>
+
+<h2>🔊 6. Web Audio Synthesizer Sound Design</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Sound Action</th>
+      <th>Waveform</th>
+      <th>Frequency Ramp</th>
+      <th>Gain & Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Button Click Tick</strong></td>
+      <td>Sine Wave</td>
+      <td>800 Hz &rarr; 400 Hz (exponential)</td>
+      <td>0.04 Gain, 40 ms duration</td>
+    </tr>
+    <tr>
+      <td><strong>Verification Chime</strong></td>
+      <td>Dual Sine Chord</td>
+      <td>D5 (587.3 Hz) / A5 (880 Hz) &rarr; A5 / D6 (1174.6 Hz)</td>
+      <td>0.05 Gain, 350 ms duration</td>
+    </tr>
+    <tr>
+      <td><strong>Alert Warning Buzz</strong></td>
+      <td>Sawtooth Wave</td>
+      <td>440 Hz &rarr; 370 Hz</td>
+      <td>0.06 Gain, 220 ms duration</td>
+    </tr>
+    <tr>
+      <td><strong>QR Laser Scanner</strong></td>
+      <td>Triangle Wave</td>
+      <td>1200 Hz &rarr; 2400 Hz</td>
+      <td>0.06 Gain, 120 ms duration</td>
+    </tr>
+    <tr>
+      <td><strong>Quarantine Sub-Bass</strong></td>
+      <td>Deep Triangle</td>
+      <td>160 Hz &rarr; 45 Hz (sub-bass drop)</td>
+      <td>0.12 Gain, 350 ms duration</td>
+    </tr>
+    <tr>
+      <td><strong>Telemetry Packet Tick</strong></td>
+      <td>Sine Wave</td>
+      <td>1800 Hz</td>
+      <td>0.015 Gain, 20 ms duration</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>⌨️ 7. Keyboard Shortcuts & Productivity Hotkeys</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Shortcut</th>
+      <th>Action Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Ctrl + K</kbd> / <kbd>Cmd + K</kbd></td>
+      <td>Open Universal Global Search Modal (Search Lot, Machine, Supplier, Material, Shipment)</td>
+    </tr>
+    <tr>
+      <td><kbd>Ctrl + J</kbd> / <kbd>Ctrl + /</kbd></td>
+      <td>Launch ManuTrace AI Copilot Assistant</td>
+    </tr>
+    <tr>
+      <td><kbd>Ctrl + D</kbd></td>
+      <td>Start / Exit 5-Minute Guided Expo Story Tour (17 Steps)</td>
+    </tr>
+    <tr>
+      <td><kbd>Ctrl + E</kbd></td>
+      <td>Generate & Print ISO 9001 Batch Audit Dossier</td>
+    </tr>
+    <tr>
+      <td><kbd>?</kbd> (Shift + /)</td>
+      <td>Open Keyboard Shortcuts & Productivity Guide</td>
+    </tr>
+    <tr>
+      <td><kbd>ESC</kbd></td>
+      <td>Close active modal, drawer, or search overlay</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

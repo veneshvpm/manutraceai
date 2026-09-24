@@ -50,7 +50,7 @@ export const LoginPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan to-blue-600 p-0.5 flex items-center justify-center shadow-glow-cyan/40">
             <div className="w-full h-full bg-[#0B0F19] rounded-[10px] flex items-center justify-center">
-              <Compass className="w-5 h-5 text-cyan" />
+              <Factory className="w-5 h-5 text-cyan" />
             </div>
           </div>
           <div>

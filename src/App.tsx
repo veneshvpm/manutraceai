@@ -2,10 +2,17 @@ import React from 'react';
 import { useApp } from './context/AppContext';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
+import { ContextualBreadcrumbBar } from './components/common/ContextualBreadcrumbBar';
 import { GlobalSearchModal } from './components/common/GlobalSearchModal';
 import { NotificationDrawer } from './components/common/NotificationDrawer';
 import { QrPassportModal } from './components/common/QrPassportModal';
 import { ExpoDemoController } from './components/common/ExpoDemoController';
+import { ToastContainer } from './components/common/ToastContainer';
+import { AiCopilotModal } from './components/common/AiCopilotModal';
+import { QuickScenarioPresetsModal } from './components/common/QuickScenarioPresetsModal';
+import { ExportDossierModal } from './components/common/ExportDossierModal';
+import { KeyboardShortcutsModal } from './components/common/KeyboardShortcutsModal';
+import { QuickActionHub } from './components/common/QuickActionHub';
 
 // Feature Pages
 import { LoginPage } from './pages/LoginPage';
@@ -24,6 +31,7 @@ import { MachinesPage } from './pages/MachinesPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { DatasetPage } from './pages/DatasetPage';
 
 export const App: React.FC = () => {
   const { isAuthenticated, activeTab } = useApp();
@@ -36,6 +44,8 @@ export const App: React.FC = () => {
     switch (activeTab) {
       case 'dashboard':
         return <DashboardPage />;
+      case 'dataset':
+        return <DatasetPage />;
       case 'passport':
         return <PassportPage />;
       case 'products':
@@ -77,6 +87,7 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header />
+        <ContextualBreadcrumbBar />
 
         {/* Scrollable Page Body */}
         <main className="flex-1 overflow-y-auto bg-[#F5F7FA]">
@@ -84,11 +95,18 @@ export const App: React.FC = () => {
         </main>
       </div>
 
-      {/* Global Modals & Overlay Drawers */}
+      {/* Global Modals, Overlay Drawers & Productivity Hubs */}
       <GlobalSearchModal />
       <NotificationDrawer />
       <QrPassportModal />
       <ExpoDemoController />
+      <ToastContainer />
+      <AiCopilotModal />
+      <QuickScenarioPresetsModal />
+      <ExportDossierModal />
+      <KeyboardShortcutsModal />
+      <QuickActionHub />
     </div>
   );
 };
+

@@ -17,18 +17,35 @@ import {
   Radio,
   Send,
   Boxes,
-  QrCode
+  QrCode,
+  UploadCloud,
+  Play,
+  BrainCircuit,
+  Target,
+  FileText,
+  Zap
 } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+import { useApp, PRESET_SCENARIOS } from '../context/AppContext';
+import { IndustryVisualIcon } from '../components/common/IndustryVisualIcon';
+import { sound } from '../services/soundFx';
 
 export const DashboardPage: React.FC = () => {
   const {
     industryConfig,
+    currentIndustry,
+    batches,
+    products,
+    machines,
     setActiveTab,
     setSelectedBatchId,
     setSelectedProductId,
     setSelectedMachineId,
-    setIsPassportModalOpen
+    setIsPassportModalOpen,
+    setIsScenarioModalOpen,
+    setIsCopilotOpen,
+    setIsExportDossierOpen,
+    applyPresetScenario,
+    startDemoTour
   } = useApp();
 
   const handleInspectBatch = (batchId: string) => {
@@ -52,7 +69,7 @@ export const DashboardPage: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl lg:text-3xl font-extrabold text-[#343C6A] tracking-tight">
-            Manufacturing Overview
+            Manufacturing Overview & Intelligence
           </h1>
           <p className="text-xs text-[#718EBF] mt-1 font-medium">
             Facility: <span className="text-[#343C6A] font-semibold">{industryConfig.name}</span> • Line 01–06 Telemetry Synchronized
@@ -60,20 +77,143 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Action Pills */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <button
-            onClick={() => handleInspectBatch('B-1042')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFEBEF] text-[#FE5C73] hover:bg-[#FFD9E0] text-xs font-bold transition-all"
+            onClick={() => {
+              sound.playClick();
+              setIsCopilotOpen(true);
+            }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#2D60FF] to-[#1230AE] hover:opacity-95 text-white text-xs font-bold transition-all shadow-[0_4px_12px_rgba(45,96,255,0.3)]"
           >
-            <Flame className="w-3.5 h-3.5" />
-            <span>Anomaly Batch B-1042</span>
+            <BrainCircuit className="w-3.5 h-3.5 text-white animate-spin" style={{ animationDuration: '8s' }} />
+            <span>AI Copilot</span>
           </button>
           <button
-            onClick={() => setIsPassportModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#2D60FF] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-[0_4px_12px_rgba(45,96,255,0.3)]"
+            onClick={() => {
+              sound.playClick();
+              setIsScenarioModalOpen(true);
+            }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#FFF5D9] text-[#FFBB38] hover:bg-[#ffecc0] text-xs font-bold transition-all"
+          >
+            <Target className="w-3.5 h-3.5" />
+            <span>1-Click Scenarios</span>
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick();
+              setIsExportDossierOpen(true);
+            }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#F5F7FA] text-[#343C6A] hover:bg-[#EEF2F6] text-xs font-bold border border-[#E6EFF5] transition-all"
+          >
+            <FileText className="w-3.5 h-3.5 text-[#718EBF]" />
+            <span>Audit PDF</span>
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick();
+              setIsPassportModalOpen(true);
+            }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#E7EDFF] text-[#2D60FF] hover:bg-[#d6e3ff] text-xs font-bold transition-all"
           >
             <QrCode className="w-3.5 h-3.5" />
-            <span>Digital Passport QR</span>
+            <span>Passport QR</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 1-CLICK INTERACTIVE SCENARIO QUICK-LAUNCH MATRIX */}
+      <div className="p-5 rounded-3xl bg-white border border-[#E6EFF5] shadow-xs space-y-3.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-[#E7EDFF] flex items-center justify-center text-[#2D60FF]">
+              <Target className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#343C6A]">
+                1-Click Incident Forensics & Test Scenarios
+              </h3>
+              <p className="text-[11px] text-[#718EBF]">
+                Instantly focus on real production incidents, trace supply chains, or simulate parameter tweaks
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsScenarioModalOpen(true)}
+            className="text-xs font-bold text-[#2D60FF] hover:underline"
+          >
+            View All Scenarios →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {PRESET_SCENARIOS.map(sc => (
+            <div
+              key={sc.id}
+              onClick={() => applyPresetScenario(sc.id)}
+              className="p-3.5 rounded-2xl bg-[#F5F7FA] hover:bg-[#EEF2F6] border border-[#E6EFF5] hover:border-[#2D60FF]/30 cursor-pointer transition-all group flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-mono text-xs font-bold text-[#2D60FF]">{sc.targetBatchId}</span>
+                  <span
+                    className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
+                      sc.category === 'critical'
+                        ? 'bg-[#FFEBEF] text-[#FE5C73]'
+                        : sc.category === 'warning'
+                        ? 'bg-[#FFF5D9] text-[#FFBB38]'
+                        : sc.category === 'predictive'
+                        ? 'bg-[#E7EDFF] text-[#2D60FF]'
+                        : 'bg-[#E1F8EC] text-[#10B981]'
+                    }`}
+                  >
+                    {sc.badge}
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-[#343C6A] group-hover:text-[#2D60FF] transition-colors line-clamp-1">
+                  {sc.title}
+                </h4>
+                <p className="text-[11px] text-[#718EBF] line-clamp-2 mt-1">
+                  {sc.description}
+                </p>
+              </div>
+
+              <div className="mt-3 pt-2 border-t border-[#E6EFF5] flex items-center justify-between text-[10px] text-[#2D60FF] font-bold">
+                <span>Jump to {sc.targetTab.toUpperCase()}</span>
+                <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Industrial Dataset Ingestion & Sector Intelligence Quick Hub */}
+      <div className="p-5 rounded-3xl bg-white border border-[#E6EFF5] shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2D60FF] to-[#1230AE] flex items-center justify-center text-white shadow-[0_4px_12px_rgba(45,96,255,0.3)] flex-shrink-0">
+            <IndustryVisualIcon type="factory" size={24} className="text-white" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-extrabold text-[#343C6A]">
+                Industrial Dataset Studio & Real-Time Ingestion
+              </h3>
+              <span className="px-2 py-0.5 rounded-full bg-[#DCFAF8] text-[#16DBCC] text-[10px] font-bold">
+                {batches.length} Batches Active
+              </span>
+            </div>
+            <p className="text-xs text-[#718EBF] mt-0.5">
+              Upload custom CSV/JSON manufacturing files or load sector benchmarks directly into live telemetry streams
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-shrink-0 w-full md:w-auto">
+          <button
+            onClick={() => setActiveTab('dataset')}
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-[#2D60FF] hover:bg-[#204ecf] text-white text-xs font-bold transition-all shadow-sm"
+          >
+            <UploadCloud className="w-4 h-4" />
+            <span>Upload File (CSV / JSON)</span>
           </button>
         </div>
       </div>
