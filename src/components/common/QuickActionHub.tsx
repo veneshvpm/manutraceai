@@ -8,7 +8,8 @@ import {
   Keyboard,
   X,
   Zap,
-  Play
+  Play,
+  ShieldCheck
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { sound } from '../../services/soundFx';
@@ -21,7 +22,8 @@ export const QuickActionHub: React.FC = () => {
     setIsExportDossierOpen,
     setIsShortcutsOpen,
     startDemoTour,
-    isDemoTourActive
+    isDemoTourActive,
+    setActiveTab
   } = useApp();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +63,36 @@ export const QuickActionHub: React.FC = () => {
             <span className="text-[#343C6A]">1-Click Scenarios</span>
             <span className="text-[9px] bg-[#FFF5D9] text-[#FFBB38] px-1.5 py-0.5 rounded-full font-bold">
               4 PRESETS
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              sound.playClick();
+              setActiveTab('scada');
+            }}
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white hover:bg-[#FFEBEF] text-[#FE5C73] text-xs font-bold shadow-[0_4px_20px_rgba(254,92,115,0.2)] border border-[#FE5C73]/25 transition-all group"
+          >
+            <Zap className="w-4 h-4 text-[#FE5C73]" />
+            <span>Microgrid SCADA & EMS</span>
+            <span className="text-[9px] bg-[#FFEBEF] text-[#FE5C73] px-1.5 py-0.5 rounded-full font-bold">
+              LIVE SLD
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              sound.playClick();
+              setActiveTab('human-security');
+            }}
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white hover:bg-[#E1F8EC] text-[#10B981] text-xs font-bold shadow-[0_4px_20px_rgba(16,185,129,0.2)] border border-[#10B981]/25 transition-all group"
+          >
+            <ShieldCheck className="w-4 h-4 text-[#10B981]" />
+            <span className="text-[#343C6A]">Human Security & HSE</span>
+            <span className="text-[9px] bg-[#E1F8EC] text-[#10B981] px-1.5 py-0.5 rounded-full font-bold">
+              OSHA/EHS
             </span>
           </button>
 

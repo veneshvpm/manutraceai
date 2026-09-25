@@ -65,6 +65,10 @@ export const ContextualBreadcrumbBar: React.FC = () => {
         return 'Supplier Scorecard Matrix';
       case 'machines':
         return 'Machine Fleet Telemetry';
+      case 'scada':
+        return 'Microgrid SCADA & EMS';
+      case 'human-security':
+        return 'Human Security & Worker Safety HSE';
       case 'analytics':
         return 'Executive Analytics';
       case 'reports':

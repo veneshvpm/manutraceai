@@ -65,5 +65,19 @@ export const INDUSTRIES: Record<IndustryType, IndustryConfig> = {
       processLabel: 'Dyeing, Weaving & Curing',
     },
     sampleFocus: 'Tensile tensile load, dye bath pH & temp variance, moisture-wicking consistency'
+  },
+  energy: {
+    id: 'energy',
+    name: 'Clean Energy & Microgrid SCADA',
+    tagline: 'Renewable Solar/Wind generation, BESS battery storage, EMS dispatch & Smart Grid Intertie',
+    terminology: {
+      productLabel: 'Grid Asset / Generation Unit',
+      batchLabel: 'Dispatch Block / Telemetry Frame',
+      materialLabel: 'Raw Power / BESS Chemistry',
+      unitLabel: 'kWh / MW',
+      processLabel: 'PCS Inversion & EMS Arbitration',
+    },
+    sampleFocus: 'Frequency stability 50.0Hz, BESS cell thermal runaway prevention, TOU tariff peak-shaving'
   }
 };
+

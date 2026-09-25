@@ -32,6 +32,8 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { DatasetPage } from './pages/DatasetPage';
+import { ScadaPage } from './pages/ScadaPage';
+import { HumanSecurityPage } from './pages/HumanSecurityPage';
 
 export const App: React.FC = () => {
   const { isAuthenticated, activeTab } = useApp();
@@ -68,6 +70,10 @@ export const App: React.FC = () => {
         return <SuppliersPage />;
       case 'machines':
         return <MachinesPage />;
+      case 'scada':
+        return <ScadaPage />;
+      case 'human-security':
+        return <HumanSecurityPage />;
       case 'analytics':
         return <AnalyticsPage />;
       case 'reports':

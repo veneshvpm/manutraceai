@@ -50,7 +50,8 @@ export const Header: React.FC = () => {
     { id: 'electronics', label: 'Semiconductor & Electronics', icon: '⚡' },
     { id: 'pharmaceutical', label: 'Pharma & BioTech (cGMP)', icon: '💊' },
     { id: 'food', label: 'Food & Beverage Processing', icon: '🥫' },
-    { id: 'textile', label: 'Technical Textiles & Apparel', icon: '🧵' }
+    { id: 'textile', label: 'Technical Textiles & Apparel', icon: '🧵' },
+    { id: 'energy', label: 'Clean Energy & Microgrid SCADA', icon: '⚡' }
   ];
 
   return (

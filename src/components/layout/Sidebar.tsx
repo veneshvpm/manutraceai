@@ -20,7 +20,9 @@ import {
   Factory,
   Volume2,
   VolumeX,
-  Database
+  Database,
+  Zap,
+  HardHat
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { IndustryVisualIcon } from '../common/IndustryVisualIcon';
@@ -61,6 +63,8 @@ export const Sidebar: React.FC = () => {
     { id: 'quality', label: 'Quality Control', icon: CheckCircle },
     { id: 'suppliers', label: 'Suppliers', icon: Building2 },
     { id: 'machines', label: 'Machines & Telemetry', icon: Cpu },
+    { id: 'scada', label: 'SCADA & Energy EMS', icon: Zap, badge: 'SCADA', badgeColor: 'bg-[#FFEBEF] text-[#FE5C73]' },
+    { id: 'human-security', label: 'Human Security & HSE', icon: HardHat, badge: 'HSE', badgeColor: 'bg-[#E1F8EC] text-[#10B981]' },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'reports', label: 'Reports', icon: FileSpreadsheet },
     { id: 'settings', label: 'Settings', icon: Settings },

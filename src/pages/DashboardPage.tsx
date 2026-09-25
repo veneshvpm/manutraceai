@@ -121,6 +121,40 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
+      {/* ── SCADA MICROGRID SPOTLIGHT BANNER (When Clean Energy Sector is Active) ── */}
+      {currentIndustry === 'energy' && (
+        <div className="bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] rounded-3xl p-6 border border-slate-800 shadow-xl text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2D60FF] to-[#16DBCC] p-3 flex items-center justify-center text-white shadow-md">
+              <Zap className="w-6 h-6 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-extrabold text-base text-white">APEX Microgrid SCADA & EMS Suite Active</h3>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  100% CLEAN DISPATCH
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Monitoring 35kW Solar PV, 25kW Wind Turbine, 100kWh BESS Storage & 11kV Substation Grid Intertie.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                sound.playClick();
+                setActiveTab('scada');
+              }}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#2D60FF] hover:bg-[#1230AE] text-white text-xs font-bold transition-all shadow-md"
+            >
+              <Zap className="w-4 h-4" />
+              <span>Open Dedicated SCADA Suite</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 1-CLICK INTERACTIVE SCENARIO QUICK-LAUNCH MATRIX */}
       <div className="p-5 rounded-3xl bg-white border border-[#E6EFF5] shadow-xs space-y-3.5">
         <div className="flex items-center justify-between">

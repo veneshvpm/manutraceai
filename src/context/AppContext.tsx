@@ -231,6 +231,32 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
     targetRawMaterialId: 'RM-7820',
     targetTab: 'passport',
     highlights: ['ISO 9001 certified', 'Zero defects', 'Instant QR Share']
+  },
+  {
+    id: 'scada-microgrid-event',
+    title: 'Smart Microgrid Peak Shaving & BESS Dispatch',
+    category: 'predictive',
+    badge: 'SCADA EMS',
+    description: '11kV Grid peak tariff window active ($0.18/kWh). BESS discharging 25 kW to eliminate utility demand penalties.',
+    targetBatchId: 'B-1042',
+    targetProductId: 'PRD-10021',
+    targetMachineId: 'M04',
+    targetRawMaterialId: 'RM-7821',
+    targetTab: 'scada',
+    highlights: ['100% On-site Renewable Solar/Wind', 'BESS 16-Cell Balancing', 'Zero Carbon Emissions']
+  },
+  {
+    id: 'human-security-event',
+    title: 'Worker Safety AI Vision & LOTO Interlock Event',
+    category: 'critical',
+    badge: 'OSHA / EHS',
+    description: 'David Chen (WRK-105) smart badge detected fall advisory. LOTO lockout active on 415V CNC M04 and geofence armed.',
+    targetBatchId: 'B-1042',
+    targetProductId: 'PRD-10021',
+    targetMachineId: 'M04',
+    targetRawMaterialId: 'RM-7821',
+    targetTab: 'human-security',
+    highlights: ['YOLOv8 PPE Vision Detection', 'Zero-Energy LOTO Verification', 'Automated RFID Muster Roll-Call']
   }
 ];
 

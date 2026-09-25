@@ -126,6 +126,20 @@ export const INITIAL_SUPPLIERS: Supplier[] = [
     certification: 'OEKO-TEX 100 / ISO 9001',
     complianceDate: '2026-07-29',
     contactEmail: 'qa@vanguardfibers.co.uk'
+  },
+  {
+    id: 'SUP-009',
+    name: 'Apex CleanTech Cell Systems',
+    material: 'LFP Lithium Iron Phosphate 3.2V 100Ah Cells & Monocrystalline Silicon',
+    industry: 'energy',
+    qualityScore: 98,
+    defectRate: 0.5,
+    activeBatches: 16,
+    risk: 'low',
+    location: 'Munich, Germany',
+    certification: 'IEC 62619 / UL 9540A / UN 38.3',
+    complianceDate: '2026-09-15',
+    contactEmail: 'bms-qa@apexcleantech.de'
   }
 ];
 
@@ -330,6 +344,32 @@ export const INITIAL_RAW_MATERIALS: RawMaterial[] = [
     status: 'approved',
     riskLevel: 'medium',
     purityScore: 95.8
+  },
+  {
+    id: 'RM-7836',
+    name: 'Lithium Iron Phosphate (LFP) 100Ah Pouch Cells',
+    industry: 'energy',
+    supplierId: 'SUP-009',
+    supplierName: 'Apex CleanTech Cell Systems',
+    batchNumber: 'LOT-2026-ENG-LFP01',
+    receivedDate: '2026-09-18',
+    qualityGrade: 'Automotive Grade A+ (99.98%)',
+    status: 'approved',
+    riskLevel: 'low',
+    purityScore: 99.8
+  },
+  {
+    id: 'RM-7837',
+    name: 'M10 N-Type TOPCon Silicon Solar Cells',
+    industry: 'energy',
+    supplierId: 'SUP-009',
+    supplierName: 'Apex CleanTech Cell Systems',
+    batchNumber: 'LOT-2026-ENG-PV04',
+    receivedDate: '2026-09-19',
+    qualityGrade: 'Tier-1 24.5% Efficiency',
+    status: 'approved',
+    riskLevel: 'low',
+    purityScore: 99.5
   }
 ];
 
@@ -461,6 +501,48 @@ export const INITIAL_MACHINES: Machine[] = [
       processingTime: 45.0,
       vibration: 0.4,
       machineSpeed: 600
+    }
+  },
+  {
+    id: 'M07',
+    name: 'Apex Microgrid Master SCADA Gateway',
+    type: 'Embedded RTU & Industrial Protocol Gateway',
+    line: 'Substation Bay 01',
+    industry: 'energy',
+    status: 'running',
+    utilization: 96,
+    lastMaintenance: '20 Sep 2026',
+    nextMaintenance: '20 Oct 2026',
+    risk: 'low',
+    operatingHours: 8760,
+    associatedDefects: 0,
+    telemetry: {
+      temperature: 34,
+      pressure: 1.0,
+      processingTime: 0.1,
+      vibration: 0.1,
+      machineSpeed: 50
+    }
+  },
+  {
+    id: 'M08',
+    name: 'PCS 3-Phase Inverter Converter Bay',
+    type: '100kW IGBT Bidirectional PCS Inverter',
+    line: 'PCS Inverter 01',
+    industry: 'energy',
+    status: 'running',
+    utilization: 92,
+    lastMaintenance: '15 Sep 2026',
+    nextMaintenance: '15 Oct 2026',
+    risk: 'low',
+    operatingHours: 5420,
+    associatedDefects: 1,
+    telemetry: {
+      temperature: 44,
+      pressure: 1.0,
+      processingTime: 1.0,
+      vibration: 0.2,
+      machineSpeed: 50
     }
   }
 ];
@@ -719,6 +801,56 @@ export const INITIAL_BATCHES: Batch[] = [
       processingTime: 25.0,
       vibration: 1.2,
       machineSpeed: 950
+    },
+    anomalyDetected: false
+  },
+  {
+    id: 'B-1052',
+    productId: 'PRD-10041',
+    productName: 'BESS 100kWh Industrial Lithium Storage Rack',
+    industry: 'energy',
+    productionLine: 'Substation Bay 01',
+    manufacturingDate: '23 Sep 2026',
+    quantity: 12,
+    qualityStatus: 'passed',
+    riskLevel: 'low',
+    passRate: 99.8,
+    defectRate: 0.2,
+    traceabilityCoverage: 100,
+    operatorId: 'OP-01 (Lead SCADA Eng)',
+    machineId: 'M07',
+    rawMaterialBatchId: 'RM-7836',
+    telemetry: {
+      temperature: 27,
+      pressure: 1.0,
+      processingTime: 120.0,
+      vibration: 0.1,
+      machineSpeed: 50
+    },
+    anomalyDetected: false
+  },
+  {
+    id: 'B-1053',
+    productId: 'PRD-10042',
+    productName: '35kW Bifacial Monocrystalline Solar Array Block',
+    industry: 'energy',
+    productionLine: 'Substation Bay 01',
+    manufacturingDate: '23 Sep 2026',
+    quantity: 80,
+    qualityStatus: 'passed',
+    riskLevel: 'low',
+    passRate: 99.5,
+    defectRate: 0.5,
+    traceabilityCoverage: 100,
+    operatorId: 'OP-02 (Solar Tech)',
+    machineId: 'M08',
+    rawMaterialBatchId: 'RM-7837',
+    telemetry: {
+      temperature: 38,
+      pressure: 1.0,
+      processingTime: 60.0,
+      vibration: 0.1,
+      machineSpeed: 50
     },
     anomalyDetected: false
   }
@@ -1027,6 +1159,36 @@ export const INITIAL_PRODUCTS: Product[] = [
     serialNumber: 'SN-2026-TB-99140',
     certification: 'UL 94-5VA / Continuous 1000°C',
     warrantyStatus: '5-Yr Replacement Warranty'
+  },
+  {
+    id: 'PRD-10041',
+    name: 'BESS 100kWh Industrial Lithium Storage Rack',
+    category: 'Energy Storage Systems',
+    industry: 'energy',
+    batchId: 'B-1052',
+    manufacturingDate: '23 Sep 2026',
+    productionLine: 'Substation Bay 01',
+    qualityStatus: 'passed',
+    riskLevel: 'low',
+    traceability: 100,
+    serialNumber: 'SN-2026-BESS-100K-01',
+    certification: 'IEC 62619 / UL 9540A / UN 38.3',
+    warrantyStatus: '15-Yr / 6000 Cycle Guarantee'
+  },
+  {
+    id: 'PRD-10042',
+    name: '35kW Bifacial Monocrystalline Solar Array Block',
+    category: 'Solar Power Generation',
+    industry: 'energy',
+    batchId: 'B-1053',
+    manufacturingDate: '23 Sep 2026',
+    productionLine: 'Substation Bay 01',
+    qualityStatus: 'passed',
+    riskLevel: 'low',
+    traceability: 100,
+    serialNumber: 'SN-2026-PV-35KW-04',
+    certification: 'IEC 61215 / IEC 61730 Tier-1',
+    warrantyStatus: '25-Yr 85% Linear Yield Warranty'
   }
 ];
 
